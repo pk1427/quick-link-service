@@ -126,7 +126,7 @@ docker-compose down
 - Redirect works correctly
 
 **Screenshot:**
-![Uploading image.png…]()
+![Valid url test](screenshots/valid-url-test.png)
 
 ---
 
