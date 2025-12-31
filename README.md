@@ -202,30 +202,6 @@ curl -X POST http://localhost:8000/shorten \
 
 ---
 
-#### ⏳ Test Case 7: Loading State
-**Action:** Click "Shorten URL" button
-
-**Expected Result:**
-- Button text changes to "⏳ Shortening..."
-- Button is disabled during processing
-
-**Screenshot:**
-![Loading State Test](screenshots/loading-state-test.png)
-
----
-
-#### 🔄 Test Case 8: Redirect Functionality
-**Action:** 
-1. Shorten URL `https://github.com`
-2. Click generated short URL
-3. Observe browser redirect
-
-**Expected Result:**
-- Browser opens new tab
-- Redirects to original URL
-
-**Screenshot:**
-![Redirect Test](screenshots/redirect-test.png)
 
 ## 🐛 Error Handling
 
@@ -236,19 +212,6 @@ The application handles various error scenarios:
 3. **Blocked Domain**: Specific blocked domain message
 4. **Missing Header**: 401 Unauthorized
 5. **Non-existent Short Code**: 404 Not Found
-
-## 🔧 Configuration
-
-### Environment Variables
-
-**Frontend** (optional):
-```env
-VITE_API_URL=http://localhost:8000
-```
-
-**Backend**:
-- No environment variables required for basic operation
-- Port is hardcoded to 8000 (can be modified in `server.ts`)
 
 ## 📦 Dependencies
 
@@ -296,26 +259,4 @@ All test case screenshots are located in the `screenshots/` directory:
 - `complex-url-test.png` - URL with query parameters
 - `missing-header-test.png` - 401 authentication error
 - `with-header-test.png` - Successful API call with header
-- `loading-state-test.png` - UI loading state
-- `redirect-test.png` - Redirect functionality
 
-## 👨‍💻 Author
-
-**Debajyoti Das**
-- Internship Program: ANQ Finance GEMS Program
-- Assessment Date: December 31, 2024
-- GitHub: [Your GitHub Username]
-
-## 📄 License
-
-This project was created as part of the ANQ Finance internship assessment.
-
-## 🙏 Acknowledgments
-
-- ANQ Finance for the opportunity
-- Deno team for the excellent runtime
-- React team for the UI library
-
----
-
-**Note**: This implementation uses in-memory storage for simplicity. For production use, implement persistent storage using PostgreSQL, MongoDB, or SQLite with proper error handling and data validation.
