@@ -112,109 +112,6 @@ To stop the services:
 docker-compose down
 ```
 
-## 📡 API Documentation
-
-### POST /shorten
-Shortens a URL.
-
-**Headers:**
-```
-Content-Type: application/json
-X-Intern-Challenge: Debajyoti
-```
-
-**Request Body:**
-```json
-{
-  "longUrl": "https://example.com"
-}
-```
-
-**Success Response (201):**
-```json
-{
-  "shortCode": "aBc7D5",
-  "shortUrl": "http://localhost:8000/aBc7D5"
-}
-```
-
-**Error Responses:**
-- `400`: Invalid URL format or blocked domain
-- `401`: Missing X-Intern-Challenge header
-- `500`: Internal server error
-
-### GET /:code
-Redirects to the original URL.
-
-**Example:**
-```
-GET http://localhost:8000/aBc7D5
-→ Redirects to https://example.com
-```
-
-**Error Responses:**
-- `404`: Short code not found
-
-## 🔒 Custom Implementation Details
-
-### 1. Plus-One Logic
-Every shortened code ends with a digit representing the total character count of the base code.
-
-**Implementation:**
-```typescript
-export function generateShortCode(): string {
-  const characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-  let code = "";
-  
-  // Generate 5 random characters
-  for (let i = 0; i < 5; i++) {
-    code += characters.charAt(Math.floor(Math.random() * characters.length));
-  }
-  
-  // Apply "Plus-One" logic: append the count of characters
-  const finalCode = code + code.length; // e.g., "aBc7D" (5 chars) → "aBc7D5"
-  
-  return finalCode;
-}
-```
-
-**Example:**
-- Base code: `aBc7D` (5 characters)
-- Final code: `aBc7D5` (last digit is 5)
-
-### 2. Custom Header Authentication
-API requests to `/shorten` must include the header `X-Intern-Challenge` with the intern's name.
-
-**Implementation:**
-```typescript
-export async function authMiddleware(ctx: Context, next: Next) {
-  const challengeHeader = ctx.request.headers.get("X-Intern-Challenge");
-  
-  if (!challengeHeader) {
-    ctx.response.status = 401;
-    ctx.response.body = { error: "Unauthorized: Missing X-Intern-Challenge header" };
-    return;
-  }
-  
-  await next();
-}
-```
-
-### 3. Domain Safety Check
-URLs from `blocked.com` are rejected.
-
-**Implementation:**
-```typescript
-export function isBlockedDomain(url: string): boolean {
-  try {
-    const urlObj = new URL(url);
-    return urlObj.hostname === "blocked.com" || urlObj.hostname === "www.blocked.com";
-  } catch {
-    return false;
-  }
-}
-```
-
 ## 🧪 Testing
 
 ### Test Cases
@@ -229,8 +126,7 @@ export function isBlockedDomain(url: string): boolean {
 - Redirect works correctly
 
 **Screenshot:**
-!![Uploading image.png…]()
-)
+![Uploading image.png…]()
 
 ---
 
