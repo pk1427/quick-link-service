@@ -229,7 +229,8 @@ export function isBlockedDomain(url: string): boolean {
 - Redirect works correctly
 
 **Screenshot:**
-![Valid URL Test](screenshots/valid-url-test.png)
+!![Uploading image.png…]()
+)
 
 ---
 
